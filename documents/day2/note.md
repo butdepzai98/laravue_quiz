@@ -34,3 +34,11 @@ class ProductController extends Controller
 
 
 <!-- MiddleWare in Controller -->
+
+class ProductController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('test.middleware')->except('index');
+    }
+}
