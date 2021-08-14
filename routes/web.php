@@ -64,7 +64,7 @@ Route::get('name/{name}}/cate/{cate}', function($name, $cate){
 Route::prefix('backend')->group(function(){
     Route::get('user', function () {
         return 'Backend user';
-    })->middleware('test.middleware');
+    })->middleware('test.middleware', 'verify.middleware');
 
     Route::get('product', function () {
         return 'Backend product';
