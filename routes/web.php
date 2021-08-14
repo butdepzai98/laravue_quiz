@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::prefix('backend')->group(function(){
     Route::get('user', function () {
         return 'Backend user';
-    })->middleware('test.middleware');
+    })->middleware('test.middleware', 'verify.middleware');
 
     Route::get('product', 'ProductController@index');
 
