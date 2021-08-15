@@ -8,6 +8,18 @@ add it under:
 
 protected $namespace = 'App\Http\Controllers';
 
+
+------ Add namespace for Route::namespace('nameFolder')
+// Backend
+Route::namespace('Backend')->prefix('backend')->group(function(){
+    Route::get('user', function () {
+        return 'Backend user';
+    })->middleware('test.middleware', 'verify.middleware');
+    
+
+    Route::get('/', 'DaskboardController@index');
+});
+
 -------------------------------------------------------
 
 

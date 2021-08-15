@@ -19,14 +19,16 @@ Route::get('/', function () {
 });
 
 // Backend
-Route::prefix('backend')->group(function(){
+Route::namespace('Backend')->prefix('backend')->group(function(){
     Route::get('user', function () {
         return 'Backend user';
     })->middleware('test.middleware', 'verify.middleware');
 
-    Route::get('product', 'ProductController@index');
+    Route::get('product', 'ProductController@index')->name('backend.product');
 
-    Route::get('product/create', 'ProductController@create');
+    Route::get('product/create', 'ProductController@create')->name('backend.product.create');
 
     Route::get('product/{id}', 'ProductController@product');
+
+    Route::get('/', 'DaskboardController@index');
 });
