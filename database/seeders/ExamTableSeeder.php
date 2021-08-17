@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Carbon\Factory;
+use App\Models\Exam;
 use Illuminate\Database\Seeder;
 
-class UserTableSeeder extends Seeder
+class ExamTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(500)->create();
+        Exam::factory()->count(30)->create();
     }
 }

@@ -31,7 +31,8 @@ Seeder
 
 Tạo: php artisan make:seeder UserTableSeeder
 Trong : database\seeders\DatabaseSeeder.php 
-để thêm Class vừa tạo vào
+để thêm Class vừa tạo vào 
+  $this->call(UserTableSeeder::class);
 
 Chạy: php artisan db:seed
 
