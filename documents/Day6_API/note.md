@@ -10,9 +10,11 @@ try {
     ]);
 } catch (\Exception $e) {
     return response()->json([
-        'status'    => false,
-        'code'   => Response::HTTP_INTERNAL_SERVER_ERROR,
-        'message'   => $e->getMessage()
+        'errors'    => [
+            'status'    => false,
+            'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+            'message'   => $e->getMessage(),
+        ]
     ]);
 }
 -------------------------
