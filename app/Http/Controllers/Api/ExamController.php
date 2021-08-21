@@ -46,7 +46,8 @@ class ExamController extends Controller
                 'meta'  => [
                     'total' => $examsPaginate->total(),
                     'perPage'   => $examsPaginate->perPage(),
-                    'currentPage'   => $examsPaginate->currentPage()
+                    'currentPage'   => $examsPaginate->currentPage(),
+                    'last_page'     => $examsPaginate->lastPage()
                 ]
             ]);
         } catch (\Exception $e) {

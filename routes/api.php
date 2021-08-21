@@ -19,7 +19,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::namespace('App\Http\Controllers\Api')->prefix('v1')->group(function(){
+    // Exam
     Route::resource('exams', 'ExamController')
+    ->except(['edit', 'create']);
+
+    // Question
+    Route::resource('question', QuestionController::class)
     ->except(['edit', 'create']);
 });
 
