@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ExamService;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\Api\ExamRequest;
 
 class ExamController extends Controller
 {
@@ -50,9 +51,11 @@ class ExamController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'status'    => false,
-                'code'   => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'message'   => $e->getMessage()
+                'errors'    => [
+                    'status'    => false,
+                    'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'message'   => $e->getMessage(),
+                ]
             ]);
         }
     }
@@ -63,7 +66,7 @@ class ExamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExamRequest $request)
     {
         try {
             $exam = $this->_examService->save(null, $request->name);
@@ -114,7 +117,7 @@ class ExamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ExamRequest $request, $id)
     {
         try {
 
