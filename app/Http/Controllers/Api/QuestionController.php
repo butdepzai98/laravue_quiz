@@ -5,16 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\QuestionService;
+use App\Services\AnswerService;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Api\QuestionRequest;
+use App\Models\Question;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
     private $_questionService;
+    private $_answerService;
 
-    function __construct(QuestionService $questionService)
+    function __construct(
+        QuestionService $questionService,
+        AnswerService $answerService
+    )
     {
         $this->_questionService = $questionService;
+        $this->_answerService = $answerService;
     }
 
     /**
@@ -68,14 +76,27 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         try {
-            $question = $this->_questionService->save();
+            DB::beginTransaction();
 
+            $question = $this->_questionService->save(null, $request->content);
+            
+            if($request->answers){
+                foreach ($request->answers as $answer) {
+                    $answer['question_id']  = $question->id;
+                    $this->_answerService->save(null, $answer);
+                }
+            }
+
+            $question->answers;
+            DB::commit();
             return response()->json([
                 'status'    => true,
                 'code'      => Response::HTTP_OK,
                 'question'  => $question
             ]);
         } catch (\Exception $e) {
+            DB::rollback();
+
             return response()->json([
                 'errors'    => [
                     'status'    => false,
@@ -120,9 +141,60 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $question = $this->_questionService->save($id, $request->content);
+
+            $answerOldIds = Question::find($id)->answers->pluck('id')->toArray();
+            $answerNewIds = [];
+
+            if($request->answers){
+                foreach ($request->answers as $answer) {
+                    if(isset($answer['id']))
+                    array_push($answerNewIds, $answer['id']);
+                }
+            }
+
+            $answerRemoved = array_diff($answerOldIds, $answerNewIds);
+            if(isset($answerRemoved)){
+                $this->_answerService->delete($answerRemoved);
+            }
+
+            if($request->answers){
+                foreach ($request->answers as $answer) {
+                    $answer['question_id']  = $id;
+    
+                    if(isset($answer['id']))
+                        $this->_answerService->save($answer['id'], $answer);    
+                    else
+                        $this->_answerService->save(null, $answer);
+                }
+            }
+
+            $question->answers;
+            DB::commit();
+            return response()->json([
+                'status'    => true,
+                'code'      => Response::HTTP_OK,
+                // 'answerOldIds'  => $answerOldIds,
+                // 'answerNewIds'  => $answerNewIds,
+                'answerRemoved'  => $answerRemoved,
+                'question'  => $question,
+            ]);
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return response()->json([
+                'errors'    => [
+                    'status'    => false,
+                    'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'message'   => $e->getMessage(),
+                ]
+            ]);
+        }
     }
 
     /**
@@ -133,6 +205,28 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            Question::find($id)->answers()->delete();
+            $this->_questionService->delete($id);
+
+            DB::commit();
+            return response()->json([
+                'status'    => true,
+                'code'      => Response::HTTP_OK,
+                'message'   => "Delete question successfully."
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            return response()->json([
+                'errors'    => [
+                    'status'    => false,
+                    'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'message'   => $e->getMessage(),
+                ]
+            ]);
+        }
     }
 }

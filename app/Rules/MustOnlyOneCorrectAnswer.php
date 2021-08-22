@@ -30,7 +30,7 @@ class MustOnlyOneCorrectAnswer implements Rule
         $corrects = 0;
 
         foreach ($this->answers as $item) {
-            if($item['correct'] === true){
+            if($item['correct'] == true){
                 $corrects++;
             }
         }

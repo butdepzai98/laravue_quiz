@@ -17,9 +17,16 @@ class QuestionService
     }
 
 
-    public function save()
+    public function save($id, $data)
     {
-
+        return Question::updateOrCreate(
+            [
+                'id'    => $id
+            ],
+            [
+                'content'  => $data
+            ]
+        ); 
     }
 
     public function findById($id)
@@ -28,5 +35,10 @@ class QuestionService
         $answers = $question->answers;
 
         return $question;
+    }
+
+    public function delete($ids = [])
+    {
+        return Question::destroy($ids);
     }
 }

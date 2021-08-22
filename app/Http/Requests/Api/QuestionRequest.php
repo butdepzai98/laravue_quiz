@@ -31,8 +31,9 @@ class QuestionRequest extends FormRequest
     {
         return [
             'content'   => ['required', 'min:12', new NumberAnswersForEarchQuestion($request->answers)],
-            'answers.*.content' => ['required'],
-            'answers' => [new MustOnlyOneCorrectAnswer($request->answers)]
+            'answers.*.content' => ['required', 'min: 3'],
+            'answers' => [new MustOnlyOneCorrectAnswer($request->answers)],
+            'answers.*.correct' => ['boolean'] 
         ];
     }
 
@@ -56,7 +57,8 @@ class QuestionRequest extends FormRequest
     public function messages()
     {
         return [
-            'answers.*.content.required'    => "Content of Answer mustn't blank =.="
+            'answers.*.content.required'    => "Content of Answer mustn't blank =.=",
+            'answers.*.content.min'    => "Content of Answer mustn't at least 3 character =.=",
         ];   
     }
 }

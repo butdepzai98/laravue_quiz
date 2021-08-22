@@ -27,6 +27,7 @@ class NumberAnswersForEarchQuestion implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($this->answers)
         return count($this->answers) >= 2;
     }
 
