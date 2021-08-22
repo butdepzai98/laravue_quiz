@@ -65,17 +65,38 @@ Domain: http://127.0.0.1:8000/
     * Method: Post
     * Request:
         {
-            "name": "Exam Test 21/8 create"	
+            "name": "Exam Exam Test",
+            "questions":[
+                {"question_id": 10 },
+                {"question_id": 1 },
+                {"question_id": 5 },
+                {"question_id": 5 },
+                {"question_id": 1 }
+            ]
         }
     * Response:
         {
             "status": true,
             "code": 200,
             "exam": {
-                "name": "Exam Test 21/8 create",
-                "updated_at": "2021-08-21T03:18:52.000000Z",
-                "created_at": "2021-08-21T03:18:52.000000Z",
-                "id": 34
+                "name": "Exam Exam Test",
+                "updated_at": "2021-08-22T18:28:29.000000Z",
+                "created_at": "2021-08-22T18:28:29.000000Z",
+                "id": 43,
+                "questions": [
+                    {
+                        "id": 1,
+                        "content": "Rerum fugiat voluptatum sapiente quis non necessitatibus. Et quos in accusantium unde et. Accusamus deserunt dolorum sit odit optio in. ?",
+                        "created_at": "2021-08-17T18:18:29.000000Z",
+                        "updated_at": "2021-08-17T18:18:29.000000Z",
+                        "pivot": {
+                            "exam_id": 43,
+                            "question_id": 1
+                        }
+                    },
+                    .......................
+                    .......................
+                ]
             }
         }
     * Fail:
@@ -91,17 +112,38 @@ Domain: http://127.0.0.1:8000/
     * Request:
     * Assign Question To Exam:
         {
-            "name": "Exam created by Vinh"
+            "name": "Exam Exam Test",
+            "questions":[
+                {"question_id": 10 },
+                {"question_id": 1 },
+                {"question_id": 5 },
+                {"question_id": 5 },
+                {"question_id": 1 }
+            ]
         }
     * Response:
         {
             "status": true,
             "code": 200,
             "exam": {
-                "id": 30,
-                "name": "Exam created by Vinh",
-                "created_at": "2021-08-17T18:18:32.000000Z",
-                "updated_at": "2021-08-20T19:32:49.000000Z"
+                "name": "Exam Exam Test",
+                "updated_at": "2021-08-22T18:28:29.000000Z",
+                "created_at": "2021-08-22T18:28:29.000000Z",
+                "id": 43,
+                "questions": [
+                    {
+                        "id": 1,
+                        "content": "Rerum fugiat voluptatum sapiente quis non necessitatibus. Et quos in accusantium unde et. Accusamus deserunt dolorum sit odit optio in. ?",
+                        "created_at": "2021-08-17T18:18:29.000000Z",
+                        "updated_at": "2021-08-17T18:18:29.000000Z",
+                        "pivot": {
+                            "exam_id": 43,
+                            "question_id": 1
+                        }
+                    },
+                    .......................
+                    .......................
+                ]
             }
         }
     
