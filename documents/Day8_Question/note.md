@@ -76,7 +76,17 @@ try {
     * URI: api/v1/question
     * Method: POST
     * Request:
-        
+        {
+            "content": "What about now 2 ?",
+            "answers": [
+                {
+                    "content": "Non est doloremque ut libero et neque occaecati.",
+                    "correct": 1
+                }
+                ...............
+                ...............
+            ]
+        }
 
         Must be validation?
             - Content: require
@@ -91,16 +101,75 @@ try {
             - giá trị correct chỉ được phép là true hoặc false
 
 
+    * Response:
+        {
+            "status": true,
+            "code": 200,
+            "question": {
+                "content": "What about now 3 ?",
+                "updated_at": "2021-08-22T10:59:49.000000Z",
+                "created_at": "2021-08-22T10:59:49.000000Z",
+                "id": 759,
+                "answers": [
+                    {
+                        "id": 3025,
+                        "question_id": 759,
+                        "content": "Non est doloremque ut libero et neque occaecati.",
+                        "correct": 1,
+                        "created_at": "2021-08-22T10:59:49.000000Z",
+                        "updated_at": "2021-08-22T10:59:49.000000Z"
+                    },
+                    ..............
+                    ..............
+                ]
+            }
+        }
 
+
+- --Update Question by Id
+    * URL: api/v1/question/600
+    * Method: PUT
+    * Request: {id}
+        {
+            "content": "Cumque minus et at dolores sit officia aliquid ?",
+            "answers": [
+                {
+                    "id": 2397,
+                    "question_id": 600,
+                    "content": "Non est doloremque ut libero et neque occaecati.",
+                    "correct": 0,
+                    "created_at": "2021-08-17T18:18:32.000000Z",
+                    "updated_at": "2021-08-17T18:18:32.000000Z"
+                },
+                .....................
+                .....................
+            ]
+        }
 
     * Response:
         {
             "status": true,
             "code": 200,
-            "exam": {
-                "id": 32,
-                "name": "Exam Covid-20",
-                "updated_at": "2020-03-29T14:21:16.000000Z",
-                "created_at": "2020-03-29T14:21:16.000000Z"
+            "answerRemoved": {
+                "2": 3021,
+                "3": 3022
+            },
+            "question": {
+                "id": 600,
+                "content": "Cumque minus et at dolores sit officia aliquid ?",
+                "created_at": "2021-08-17T18:18:30.000000Z",
+                "updated_at": "2021-08-22T10:48:06.000000Z",
+                "answers": [
+                    {
+                        "id": 2397,
+                        "question_id": 600,
+                        "content": "Non est doloremque ut libero et neque occaecati.",
+                        "correct": 0,
+                        "created_at": "2021-08-17T18:18:32.000000Z",
+                        "updated_at": "2021-08-22T10:49:15.000000Z"
+                    },
+                    ......................
+                    ......................
+                ]
             }
         }
