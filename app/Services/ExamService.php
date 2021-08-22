@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Exam;
+use Illuminate\Support\Facades\DB;
 
 class ExamService
 {
@@ -37,5 +38,26 @@ class ExamService
     public function delete($ids = [])
     {
         return Exam::destroy($ids);
+    }
+
+    public function assignQuestionToExam($id, $questions)
+    {
+        $questionIds = [];
+        
+        foreach ($questions as $value) {
+            array_push($questionIds, $value["question_id"]);
+        }
+        $questionIds = array_unique($questionIds);
+
+        foreach ($questionIds as $item) {
+            DB::table('exam_question')->insert(
+                [
+                    'exam_id'       => $id,
+                    'question_id'   => $item,
+                    'created_at'    => now(),
+                    'updated_at'    => now()
+                ]
+            );
+        }
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\ExamService;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\Api\ExamRequest;
+use Illuminate\Support\Facades\DB;
 
 class ExamController extends Controller
 {
@@ -70,14 +71,24 @@ class ExamController extends Controller
     public function store(ExamRequest $request)
     {
         try {
+            DB::beginTransaction();
             $exam = $this->_examService->save(null, $request->name);
 
+            if($request->questions)
+            {
+                $this->_examService->assignQuestionToExam($exam->id, $request->questions);
+            }
+
+            $exam->questions;
+            DB::commit();
             return response()->json([
                 'status'    => true,
                 'code'  => Response::HTTP_OK,
                 'exam'  => $exam
             ]);
         } catch (\Exception $e) {
+            DB::rollback();
+
             return response()->json([
                 'status'    => false,
                 'code'   => Response::HTTP_INTERNAL_SERVER_ERROR,
@@ -96,7 +107,7 @@ class ExamController extends Controller
     {
         try {
             $exam = $this->_examService->findById($id);
-
+            $exam->questions;
             return response()->json([
                 'status'    => true,
                 'code'  => Response::HTTP_OK,
@@ -121,15 +132,31 @@ class ExamController extends Controller
     public function update(ExamRequest $request, $id)
     {
         try {
-
+            DB::beginTransaction();
             $exam = $this->_examService->save($id, $request->name);
 
+            if($request->questions)
+            {
+                if($exam->questions){
+                    foreach ($exam->questions as $item){
+                        DB::table('exam_question')->where('question_id', $item['id'])->delete();
+                    }
+                }
+
+                $this->_examService->assignQuestionToExam($id, $request->questions);
+            }
+
+            $exam = $this->_examService->findById($id);
+            $exam->questions;
+            DB::commit();
             return response()->json([
-                'status'    => true,
-                'code'  => Response::HTTP_OK,
+                'status'        => true,
+                'code'          => Response::HTTP_OK,
                 'exam'  => $exam
             ]);
         } catch (\Exception $e) {
+            DB::rollback();
+
             return response()->json([
                 'status'    => false,
                 'code'   => Response::HTTP_INTERNAL_SERVER_ERROR,

@@ -89,6 +89,7 @@ Domain: http://127.0.0.1:8000/
     * Url: api/v1/exams/30
     * Method: PUT
     * Request:
+    * Assign Question To Exam:
         {
             "name": "Exam created by Vinh"
         }
@@ -103,8 +104,9 @@ Domain: http://127.0.0.1:8000/
                 "updated_at": "2021-08-20T19:32:49.000000Z"
             }
         }
+    
 
-- --Show Exam;
+- --Show Exam:
     * URL: api/v1/exams/30
     * Method: Get
     * Request: {id}
@@ -121,7 +123,7 @@ Domain: http://127.0.0.1:8000/
         }
 
 
-- --Delete Exam;
+- --Delete Exam:
     * URL: api/v1/exams/32
     * Method: Delete
     * Response: 
@@ -129,3 +131,6 @@ Domain: http://127.0.0.1:8000/
             "status": true,
             "code": 200
         }
+
+
+<!-- -------- Assign Question To Exams ------------ -->
