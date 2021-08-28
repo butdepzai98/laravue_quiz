@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::namespace('App\Http\Controllers\Frontend')->prefix('exam')->group(function () {
     Route::get('/', 'ExamController@index');
-    Route::get('/{id}', 'ExamController@show');
+    Route::get('/{id}', 'ExamController@show')->name('exam.show');
+    Route::post('/submit/{exam_id}', 'ExamController@submit')->name('exam.submit');
 });
+
+Route::namespace('App\Http\Controllers\Frontend')->group(function(){
+    Route::get('profile', 'UserController@profile')->name('user.profile');
+    Route::get('report/{exam_id}', 'UserController@report')->name('user.report');
+});
+    

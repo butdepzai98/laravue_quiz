@@ -15,4 +15,9 @@ class Result extends Model
         'answer_id',
         'user_id'
     ];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }
