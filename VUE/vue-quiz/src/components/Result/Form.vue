@@ -1,23 +1,20 @@
 <template>
-  <div>
-      <h1>Manager library Questions</h1>
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-    props:{
-
-    },
+    name: 'ResultForm',
+    props:{},
     data(){
         return{
 
         }
     },
-    methods(){
-
+    methods:{
+        
     }
-};
+}
 </script>
 
 <style>
