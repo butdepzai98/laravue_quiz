@@ -72,14 +72,6 @@
               >
                 Reset
               </v-btn>
-
-              <v-btn
-                color="success"
-                class="mr-4"
-                to="/register"
-              >
-                Register
-              </v-btn>
             </v-col>
 
           </v-row>
