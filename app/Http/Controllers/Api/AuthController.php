@@ -24,7 +24,6 @@ class AuthController extends Controller
         $token = $user->createToken('apiToken')->plainTextToken;
 
         $resopnse = [
-            'user'  =>  $user,
             'token' =>  $token,
             'status'    => true,
             'code'  => Response::HTTP_OK
@@ -74,7 +73,6 @@ class AuthController extends Controller
             $token = $user->createToken('apiToken')->plainTextToken;
 
             return response()->json([
-                'user'    => $user,
                 'token'   => $token,
                 'status'  => true,
                 'code'    => Response::HTTP_OK,
